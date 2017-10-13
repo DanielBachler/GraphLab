@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException{
         readFromFile();
         makeArrays();
+        printStuff();
     }
 
     //Reads the needed information into the program
@@ -42,7 +43,13 @@ public class Main {
         for(int i = 0; i < numLabels; i++) {
             String row = fileReader.nextLine();
             for(int j = 0; j < numLabels; j++) {
-                aMatrix[i][j] = row.charAt(j);
+                int insert = 2;
+                if(row.charAt(j) == 48) {
+                    insert = 0;
+                } else if(row.charAt(j) == 49) {
+                    insert = 1;
+                }
+                aMatrix[i][j] = insert;
             }
         }
         //Initializes visited with the proper length
@@ -89,7 +96,13 @@ public class Main {
         }
     }
 
-    public static void minimumSpanningTree() {
-
+    //Prints the matrix
+    public static void printStuff() {
+        for(int i = 0; i < aMatrix.length; i++) {
+            for(int j = 0; j < aMatrix[i].length; j++){
+                System.out.print(aMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
