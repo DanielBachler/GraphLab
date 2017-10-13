@@ -113,8 +113,6 @@ public class Main {
             System.out.print(labels[(stack.pop())]);
 
             for (int i = 0; i < temp.length; i++) {
-
-                temp = arrays.get(temp[i]);
                 if (visited[temp[i]] == 0) {
                     stack.push(temp[i]);
                     visited [temp[i]] = 1;
