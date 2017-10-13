@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static final String matrixFile = "matrix.txt";
@@ -17,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException{
         readFromFile();
         makeArrays();
-        printStuff();
+        depthFirt();
     }
 
     //Reads the needed information into the program
@@ -104,5 +101,29 @@ public class Main {
             }
             System.out.println();
         }
+    }
+    public static void depthFirt(){
+
+        Stack<Integer> stack = new Stack<>();
+        Integer[] temp;
+        temp = arrays.get(0);
+        stack.push(0);
+        visited[0] = 1;
+        while (!stack.isEmpty()){
+            System.out.print(labels[(stack.pop())]);
+
+            for (int i = 0; i < temp.length; i++) {
+
+                temp = arrays.get(temp[i]);
+                if (visited[temp[i]] == 0) {
+                    stack.push(temp[i]);
+                    visited [temp[i]] = 1;
+                    temp = arrays.get(temp[i]);
+                }
+
+            }
+        }
+
+
     }
 }
