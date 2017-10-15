@@ -8,20 +8,33 @@ public class Node {
     public LinkedList<Node> neighbors;
     public boolean visited = false;
 
-    public Node(int value, char label, LinkedList<Node> neighbors) {
+    public Node(int value, char label) {
         this.value = value;
         this.label = label;
+    }
+
+    public void addNeighbors(LinkedList<Node> neighbors) {
         this.neighbors = neighbors;
     }
 
     //Checks for unvisited neighbors, if none are found then -1 is returned.
     //Returns the first found neighbor that has not been visited
-    public int firstUnvisitedNeighbor() {
+    public Node firstUnvisitedNeighbor() {
         for(Node n : neighbors) {
             if(!n.visited) {
-                return n.value;
+                return n;
             }
         }
-        return -1;
+        return null;
+    }
+
+    public boolean allNeighborsVisited() {
+        boolean visited = true;
+        for(Node n: neighbors) {
+            if(!n.visited) {
+                visited = false;
+            }
+        }
+        return visited;
     }
 }
