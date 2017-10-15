@@ -1,3 +1,5 @@
+package com.company;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -8,13 +10,12 @@ public class Main {
     private static char[] labels;
     private static int[][] aMatrix;
     private static int numLabels;
-    private static LinkedList<Integer[]> arrays;
+    private static LinkedList<Node> arrays;
     private static char[] visited;
 
     public static void main(String[] args) throws FileNotFoundException{
         readFromFile();
-        makeArrays();
-        depthFirt();
+        depthFirst();
     }
 
     //Reads the needed information into the program
@@ -64,35 +65,6 @@ public class Main {
 
     }
 
-    //Creates a linked list with a number of arrays equal to tags
-    //Every array contains the tags each tag is linked to, EX. A is connected to B and C
-    //So the array that corresponds to A has the number that represents B and C
-    public static void makeArrays() {
-        //Initializes the linked list
-        arrays = new LinkedList<>();
-        //Counts through the amount of labels
-        for(int i = 0; i < aMatrix[0].length; i++) {
-            //Creates but doesn't initialize the integer array needed so it can be accessed throughout
-            Integer[] temp;
-            //The size the temp array needs to be, default 0
-            int neededSize = 0;
-            //Iterates through one row, for the specific line we're on
-            for(int j = 0; j < aMatrix[i].length; j++)
-                //If a connection is found increase needed size
-                if(aMatrix[i][j] == 1)
-                    neededSize++;
-            //Initializes the temp array to the proper size
-            temp = new Integer[neededSize];
-            //Runs through the line again, checking for 1's
-            for(int j = 0, k = 0; j < aMatrix[i].length; j++)
-                //If a 1 is found, puts the label index into temp and increments k
-                if(aMatrix[i][j] == 1)
-                    temp[k++] = j;
-            //Puts the array into arrays
-            arrays.add(temp);
-        }
-    }
-
     //Prints the matrix
     public static void printStuff() {
         for(int i = 0; i < aMatrix.length; i++) {
@@ -102,7 +74,8 @@ public class Main {
             System.out.println();
         }
     }
-    public static void depthFirt(){
+
+    public static void depthFirst(){
 
         Stack<Integer> stack = new Stack<>();
         Integer[] temp;
