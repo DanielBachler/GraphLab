@@ -1,4 +1,3 @@
-package com.company;
 
 import java.util.LinkedList;
 
@@ -36,5 +35,16 @@ public class Node {
             }
         }
         return visited;
+    }
+
+    //REturns a boolean that represents whether all neighbors have been visited
+    public boolean allNVisted() {
+        boolean allVisited = false;
+        for(Node n: neighbors) {
+            if(!n.visited) {
+                allVisited = false;
+            }
+        }
+        return allVisited;
     }
 }

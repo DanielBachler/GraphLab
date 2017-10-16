@@ -1,4 +1,3 @@
-package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +11,7 @@ public class Main {
     private static int numLabels;
     private static LinkedList<Node> arrays = new LinkedList<>();
     private static String dfsResults = "";
+    private static String dfsResults2 = "";
 
     public static void main(String[] args) throws FileNotFoundException {
         readFromFile();
@@ -21,6 +21,9 @@ public class Main {
         System.out.println("\nBreadth First Search Visits:");
         breadthFirst(arrays.get(0));
         System.out.println("\nMinimum Spanning Tree:");
+        //
+        System.out.println();
+        minnimumSpanningTree1(arrays.get(0));
         minimumSpanningTree();
     }
 
@@ -74,7 +77,7 @@ public class Main {
         stack.push(start);
         while (!stack.isEmpty()) {
             Node temp = stack.peek();
-            if(!temp.visited) {
+            if (!temp.visited) {
                 System.out.print(temp.label + " ");
                 dfsResults += temp.label;
                 temp.visited = true;
@@ -97,10 +100,10 @@ public class Main {
         System.out.print(start.label + " ");
         Node temp = start;
         temp.visited = true;
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             temp = queue.remove();
             Node tempy = null;
-            while((tempy = temp.firstUnvisitedNeighbor()) != null) {
+            while ((tempy = temp.firstUnvisitedNeighbor()) != null) {
                 tempy.visited = true;
                 System.out.print(tempy.label + " ");
                 queue.add(tempy);
@@ -109,23 +112,32 @@ public class Main {
     }
 
     public static void minimumSpanningTree() {
-        System.out.println(dfsResults);
-        for(int i = 0; i < dfsResults.length() - 1; i++) {
-            System.out.print(dfsResults.substring(i, i+2) + " ");
+        System.out.println();
+        System.out.println(dfsResults2);
+        for (int i = 0; i < dfsResults2.length() - 1; i++) {
+            if(dfsResults2.charAt(i+1) == '+') {
+                System.out.print(dfsResults2.charAt(i+2) + "" + dfsResults2.charAt(i+3) + " ");
+                i = i + 2;
+
+            }
+            else {
+                System.out.print(dfsResults2.charAt(i) + "" + dfsResults2.charAt(i+1) + " ");
+            }
         }
+
     }
 
     public static void createNodes() {
         //Making Nodes
-        for(int i = 0; i < labels.length; i++) {
+        for (int i = 0; i < labels.length; i++) {
             Node temp = new Node(i, labels[i]);
             arrays.add(temp);
         }
         //Find neighbors and give to each node
-        for(int i = 0; i < aMatrix.length; i++) {
+        for (int i = 0; i < aMatrix.length; i++) {
             LinkedList<Node> neighbors = new LinkedList<>();
-            for(int j = 0; j < aMatrix[i].length; j++) {
-                if(aMatrix[i][j] == 1) {
+            for (int j = 0; j < aMatrix[i].length; j++) {
+                if (aMatrix[i][j] == 1) {
                     neighbors.add(arrays.get(j));
                 }
             }
@@ -137,8 +149,36 @@ public class Main {
 
     //Resets nodes to be used in new algorithm
     public static void resetNodes() {
-        for(Node n: arrays) {
+        for (Node n : arrays) {
             n.visited = false;
         }
+    }
+
+    public static void minnimumSpanningTree1(Node start) {
+        resetNodes();
+        Stack<Node> stack = new Stack<>();
+        stack.push(start);
+        int i = 0;
+        while (!stack.isEmpty()) {
+
+            Node temp = stack.peek();
+            if (temp == start && i != 0 && i != (labels.length - 1) * 2) {
+                System.out.print("+" + " " + start.label + " ");
+                dfsResults2 += ("+" + start.label);
+            }
+            i++;
+            if (!temp.visited) {
+                System.out.print(temp.label + " ");
+                dfsResults2 += (temp.label);
+                temp.visited = true;
+            }
+
+            if (!temp.allNeighborsVisited()) {
+                stack.push(temp.firstUnvisitedNeighbor());
+            } else {
+                stack.pop();
+            }
+        }
+       // dfsResults2 += " ";
     }
 }
